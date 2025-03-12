@@ -8,7 +8,6 @@ def extract_temperature(img):
     
     # keep only the bottom 1/3 of the image
     left = 0
-    upper = 0
     right = width
     lower = int(height * 17 / 18)  
 
@@ -34,7 +33,6 @@ def extract_date(img):
     
     # keep only the bottom 1/3 of the image
     left = 0
-    upper = 0
     right = width
     lower = int(height * 17 / 18)  
 
@@ -59,6 +57,27 @@ def extract_date(img):
     
     dt = datetime.strptime(formatted_date + " " + time, "%Y-%m-%d %H:%M:%S") if formatted_date and time else None
     return str(dt) if dt else None
+
+def extract_camera(img):
+    width, height = img.size
+    
+    # keep only the bottom 1/3 of the image
+    left = 0
+    right = width
+    lower = int(height * 17 / 18)  
+
+    cropped_image = img.crop((left, lower, right, height))
+
+    # psm 11: sparse text. Find as much text as possible in no particular order.
+    args = ["--psm 11"]    
+    text = pytesseract.image_to_string(image=cropped_image, lang='eng', config=" ".join(args))
+
+    # camera pattern must match CAM followed by 1 digit ignoring case
+    camera_pattern = r'\bCAM\d\b'
+    camera_matches = re.findall(camera_pattern, text)
+
+    camera = str.upper(camera_matches[0]) if camera_matches else None
+    return camera
 
 def parse_date(date_string):
     for format in ["%Y/%m/%d", "%d/%m/%Y"]:
