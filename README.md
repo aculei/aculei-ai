@@ -7,7 +7,7 @@ This project aims to extract data from images and classify image subjects to bui
 
 Using zero-shot-image-classification from [hugging-face](https://huggingface.co/docs/transformers/tasks/zero_shot_image_classification) we were able to classify animals in hunter-camera photographs with some high degree of accuracy.
 
-![97525](img/97525.webp)
+![97525](assets/97525.webp)
 
 Then we used [ocr techinques](https://en.wikipedia.org/wiki/Optical_character_recognition) combined with [exif](https://en.wikipedia.org/wiki/Exif) tools to extract metadata from the image itself and from exif data.
 
