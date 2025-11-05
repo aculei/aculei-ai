@@ -55,7 +55,10 @@ def extract_date(img):
             formatted_date = parsed_date.strftime("%Y-%m-%d")
         time = time_matches[0] if time_matches else None
     
-    dt = datetime.strptime(formatted_date + " " + time, "%Y-%m-%d %H:%M:%S") if formatted_date and time else None
+    try:
+        dt = datetime.strptime(formatted_date + " " + time, "%Y-%m-%d %H:%M:%S") if formatted_date and time else None
+    except ValueError:
+        dt = None
     return str(dt) if dt else None
 
 def extract_camera(img):
