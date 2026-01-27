@@ -1,4 +1,3 @@
-import sys
 import argparse
 import os
 import pandas as pd
@@ -10,13 +9,12 @@ import utils.ocr as ocr
 import utils.labels as labels_util
 import exiftool
 from transformers import pipeline
+from utils.labels import ishuman
+from utils.labels import get_labels_from_yaml
 
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 checkpoint = "openai/clip-vit-large-patch14"
 detector = pipeline(model=checkpoint, task="zero-shot-image-classification")
-
-def ishuman(label):
-    return label in ["human", "girl", "man", "woman", "old woman", "boy", "old man", "person", "people"]
 
 def save_to_csv(results_list, output_path):
     if not results_list:
